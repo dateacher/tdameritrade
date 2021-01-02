@@ -2,6 +2,7 @@
 
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
+
 https://golang.org/doc/tutorial/getting-started
 
 https://code.visualstudio.com/
