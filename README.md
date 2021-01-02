@@ -96,6 +96,6 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
 
 Helpful Links:
 
-    https://developer.tdameritrade.com/content/getting-started
     https://golang.org/doc/tutorial/getting-started
+    https://developer.tdameritrade.com/content/getting-started
 
