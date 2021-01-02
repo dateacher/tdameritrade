@@ -1,4 +1,4 @@
-[Video Setup](https://www.youtube.com/watch?v=bb2kAlzkt20) | [TDAmeritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
+[Video Setup](https://www.youtube.com/watch?v=bb2kAlzkt20) | [TD Ameritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
 
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
@@ -23,9 +23,9 @@ Create a simple test to confirm Go is working
     }
 
 
-#  Obtain Consumer Key from TDAmeritrade
+#  Obtain Consumer Key from TD Ameritrade
 
-## Step 1 - Create a TDAmeritrade Developer account 
+## Step 1 - Create a TD Ameritrade Developer account 
 
 * Visit https://developer.tdameritrade.com/
 * Register if this is your first time here - free and easy **Be sure to ACCEPT the API terms and conditions** and then follow the link in your email.
