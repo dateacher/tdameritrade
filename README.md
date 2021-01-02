@@ -1,4 +1,4 @@
-[Video Setup](http://www.youtube.com) | [TDAmeritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
+[Video Setup](https://www.youtube.com/watch?v=u2HAiEe-teo) | [TDAmeritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
 
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
