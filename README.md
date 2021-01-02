@@ -1,5 +1,4 @@
-# tdameritrade
-TDAmeritrade API Go Wrapper
+[Video Setup](http://www.youtube.com) | [TDAmeritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
 
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
@@ -44,7 +43,7 @@ Example:
     Callback URL - http://localhost
     What is the purpose of your application? - Swim in a sea of green.
 
-## Step 3 - Test new app
+## Step 3 - Test new app via Web URL
 Use the 'Consumer Key' on a random stock via the web UI to confirm the app has been created properly.
 
 * Replace `<CONSUMER_KEY>` with your copied or visit the Web Interface to test your newly created key - Example used is for the stock symbol GE - ".../marketdata/`GE`/quotes..."
@@ -65,14 +64,34 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
     |{}|Invalid Stock Symbol|
     |"error":"Invalid ApiKey"| Consumer Key needs attention|
 
+# Test TDAmeritrade API using GO
+
+## Step 1 - Clone the repository
+    git clone https://github.com/dateacher/tdameritrade.git
+## Step 2 - Update Consumer Key
+
+* Update the variable ConsumerKey inside of keyfile.go with the key from the above (Register App step).
+        
+       var ConsumerKey string = "<Consumer Key>" 
+## Step 3 - Run application
+* From within your terminal or if you are using it, the visual studio terminal execute the application with any stock symbol.
+        
+        $ go run .\main.go -stock pltr
+        $ go run .\main.go -stock ge
+        $ go run .\main.go -stock tsla
+    Response
 
 
+        PLTR regular market price is 23.55
+        30 day average price 26.36, shows stock heading *down*
 
+        GE regular market price is 10.80
+        30 day average price 10.79, shows stock heading *up*
 
+        TSLA regular market price is 705.67
+        30 day average price 635.72, shows stock heading *up*
 
-
-
-<br><br><br><br>
+<br><br>
 
 # Additional Notes
 
