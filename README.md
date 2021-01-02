@@ -3,8 +3,6 @@
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
 
-https://golang.org/doc/tutorial/getting-started
-
 https://code.visualstudio.com/
 
 https://golang.org/doc/install
@@ -99,4 +97,5 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
 Helpful Links:
 
     https://developer.tdameritrade.com/content/getting-started
+    https://golang.org/doc/tutorial/getting-started
 
