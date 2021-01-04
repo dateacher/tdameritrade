@@ -22,16 +22,24 @@ func main() {
 	//Upercase symbl as this will help later
 	stockTicker = strings.ToUpper(stockTicker)
 
-	//Execute get Stock Data function and store data in response
+	//Execute get Stock Data function and store data in response and print if there are no errors
 	fullStock, err := stockdata.GetStockData(stockTicker, keyfile.ConsumerKey)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Please see the following error: %s\n", err)
+		return
+	} else {
+		fmt.Printf("%s regular market price is %.2f\n", fullStock.Symbol, fullStock.RegularMarketLastPrice)
 	}
 
 	//Print stock symbol and regular market price based on the returned struct
-	fmt.Printf("%s regular market price is %.2f\n", fullStock.Symbol, fullStock.RegularMarketLastPrice)
 
-	//Determine treding from median
-	fmt.Println(calculations.CalcTrendingMedian(fullStock, keyfile.ConsumerKey))
-	//Print response to command/ Terminal
+	//Determine treding from median and print if there are no errors
+	trendingMedian, err := calculations.CalcTrendingMedian(fullStock, keyfile.ConsumerKey)
+	if err != nil {
+		fmt.Printf("Please see the following error: %s\n", err)
+		return
+	} else {
+		fmt.Println(trendingMedian)
+	}
+
 }
