@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"stockapp/pkg/errorhandlers"
+	"time"
 )
 
 //Stock struct for stock data
@@ -40,6 +41,9 @@ type Data struct {
 }
 
 func GetStockData(symbl string, consumerKey string) (Stock, error) {
+	//Delay to not hit rate limit during larger individual stock pulls
+	time.Sleep(500 * time.Millisecond)
+
 	//Create HTTP Client need for GET call below
 	client := &http.Client{}
 
@@ -132,3 +136,4 @@ func makeStockStructFromMap(symbl string, dataMap map[string]Stock) Stock {
 	return stockData
 
 }
+
