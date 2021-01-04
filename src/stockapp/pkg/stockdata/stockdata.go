@@ -137,6 +137,3 @@ func makeStockStructFromMap(symbl string, dataMap map[string]Stock) Stock {
 
 }
 
-func RunSectorCheck(sector string) {
-
-}
