@@ -50,7 +50,7 @@ func main() {
 
 	//If a sector is provided, execute the multi ticker code only if a single stock is not provided
 	if sector != "" {
-		stocks, err := managefile.GetSectorData("top100")
+		stocks, err := managefile.GetSectorData(sector)
 		for _, stock := range stocks {
 			fullStock, err := stockdata.GetStockData(stock, keyfile.ConsumerKey)
 			if err != nil {
