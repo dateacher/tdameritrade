@@ -2,9 +2,11 @@ package stockdata
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"stockapp/pkg/errorhandlers"
 )
 
 //Stock struct for stock data
@@ -58,7 +60,14 @@ func GetStockData(symbl string, consumerKey string) (Stock, error) {
 	if err != nil {
 		return Stock{}, err
 	}
-	//fmt.Println(body) //Debugging print line
+	//fmt.Println(string(body)) //Debugging print line
+
+	//Confirm Body data
+	bodyCheck := errorhandlers.ConfirmBody(string(body))
+
+	if bodyCheck != "" {
+		return Stock{}, errors.New(bodyCheck)
+	}
 
 	//Unmarshal response into struct to be used later
 	err = json.Unmarshal(body, &stockMap)
@@ -74,27 +83,33 @@ func GetStockData(symbl string, consumerKey string) (Stock, error) {
 }
 
 //GetPriceHistory get past data
-func GetPriceHistory(symbl string, periodType string, period string, frequencyType string, frequency string, consumerKey string) []float32 {
+func GetPriceHistory(symbl string, periodType string, period string, frequencyType string, frequency string, consumerKey string) ([]float32, error) {
 	var candles Candles
 	var numbers []float32
 	resp, err := http.Get(fmt.Sprintf("https://api.tdameritrade.com/v1/marketdata/%s/pricehistory?apikey=%s&periodType=%s&period=%s&frequencyType=%s&frequency=%s", symbl, consumerKey, periodType, period, frequencyType, frequency))
 	if err != nil {
-		//fmt.Println(err)
+		return nil, err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		//fmt.Println(err)
+		return nil, err
+	}
+	//Confirm Body data
+	bodyCheck := errorhandlers.ConfirmBody(string(body))
+
+	if bodyCheck != "" {
+		return nil, errors.New(bodyCheck)
 	}
 	err = json.Unmarshal(body, &candles)
 	if err != nil {
-		//fmt.Println(err)
+		return nil, err
 	}
 
 	//fmt.Println(candles.Candle)
 	for _, item := range candles.Candle {
 		numbers = append(numbers, item.Close)
 	}
-	return numbers
+	return numbers, nil
 }
 
 func makeStockStructFromMap(symbl string, dataMap map[string]Stock) Stock {
