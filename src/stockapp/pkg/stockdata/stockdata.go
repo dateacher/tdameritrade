@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"stockapp/pkg/errorhandlers"
 	"time"
 )
@@ -40,6 +41,7 @@ type Data struct {
 	MarketLastPrice float32
 }
 
+//GetStockData returns a data for a single stock
 func GetStockData(symbl string, consumerKey string) (Stock, error) {
 	//Delay to not hit rate limit during larger individual stock pulls
 	time.Sleep(500 * time.Millisecond)
@@ -84,6 +86,64 @@ func GetStockData(symbl string, consumerKey string) (Stock, error) {
 
 	//Return new Stock map
 	return stockStruct, nil
+}
+
+//GetMultipleStocks returns data for more then 1 stock
+func GetMultipleStocks(tickers string, consumerKey string) ([]Stock, error) {
+	//Delay to not hit rate limit during larger individual stock pulls
+	time.Sleep(500 * time.Millisecond)
+
+	client := &http.Client{}
+	var groupStocks []Stock
+	var parsed map[string]Stock
+	var newStock Stock
+
+	time.Sleep(1000 * time.Millisecond)
+	v := url.Values{}
+
+	v.Add("symbol", tickers)
+	//fmt.Println(v.Encode())
+
+	//fmt.Println(tickers)
+	request, err := http.NewRequest("GET", fmt.Sprintf("https://api.tdameritrade.com/v1/marketdata/quotes?apikey=%s&%s", consumerKey, v.Encode()), nil)
+
+	//Add this header to enable non delayed quotes
+	//request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", configuration.TDKEY))
+
+	resp, err := client.Do(request)
+	fmt.Println(resp) //#Debugging print line
+
+	if err != nil {
+		return nil, err
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body)) //Debugging print line
+
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &parsed)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, item := range parsed {
+		newStock.HighPrice = parsed[item.Symbol].HighPrice
+		newStock.ClosePrice = parsed[item.Symbol].ClosePrice
+		newStock.LowPrice = parsed[item.Symbol].LowPrice
+		newStock.Mark = parsed[item.Symbol].Mark
+		newStock.OpenPrice = parsed[item.Symbol].OpenPrice
+		newStock.TotalVolume = parsed[item.Symbol].TotalVolume
+		newStock.Mark = parsed[item.Symbol].Mark
+		newStock.Symbol = item.Symbol
+		newStock.Delayed = parsed[item.Symbol].Delayed
+
+		//stockStruct := makeStockStructFromMap(item.Symbol, item)
+		groupStocks = append(groupStocks, newStock)
+	}
+
+	return groupStocks, nil
 }
 
 //GetPriceHistory get past data
@@ -134,6 +194,34 @@ func makeStockStructFromMap(symbl string, dataMap map[string]Stock) Stock {
 
 	//Return stock struct
 	return stockData
-
 }
 
+//ChunkStockSymbls Breaks up symbols so that you are not calling more then x(chunksize) at a time
+func ChunkStockSymbls(symbls []string, chunkSize int) [][]string {
+	var chunk [][]string
+
+	for i := 0; i < len(symbls)-1; i++ {
+		if chunkSize+i < len(symbls) {
+			chunk = append(chunk, symbls[i:i+chunkSize-1])
+			i += chunkSize
+		} else {
+			chunk = append(chunk, symbls[i:])
+		}
+	}
+	return chunk
+}
+
+//MakeTickersToString turns a slice into a string
+func MakeTickersToString(tickers []string) string {
+	var fullTickers string
+	//fmt.Println(tickers)
+	for i, item := range tickers {
+		if i < len(tickers) {
+			fullTickers += fmt.Sprintf(`%s,`, item)
+		} else {
+			fullTickers += fmt.Sprintf("%s", item)
+		}
+	}
+	//fmt.Println(fullTickers)
+	return fullTickers
+}

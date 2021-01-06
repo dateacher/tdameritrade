@@ -21,6 +21,7 @@ func writeDataToText(data string) error {
 	return nil
 }
 
+//GetSectorData Returns tickers from txt file
 func GetSectorData(sector string) ([]string, error) {
 	var sectorFileLocation string
 	switch sector {
@@ -28,7 +29,10 @@ func GetSectorData(sector string) ([]string, error) {
 	//only one case statement here but you could have many case statements and many txt files to gather an unlimited number of stock sectors and symbols.
 	case "toptickers":
 		sectorFileLocation = "pkg/sectors/toptickers.txt"
+	case "all":
+		sectorFileLocation = "pkg/sectors/all.txt"
 	}
+
 	stocklist, err := getStockList(sectorFileLocation)
 	if err != nil {
 		return nil, err
