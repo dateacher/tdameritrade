@@ -32,7 +32,7 @@ func CalcTrendingMedian(stock stockdata.Stock, consumerKey string) (string, erro
 	medianPriceData := CalculateMedian(priceHistory)
 
 	//Determine if median is lower the last stock price. This can help us determine if we are higher or lower then the trending median
-	if medianPriceData < stock.RegularMarketLastPrice {
+	if medianPriceData < stock.Mark {
 		fullStatement += fmt.Sprintf("30 day average price %.2f, shows stock trending *up*\n", medianPriceData)
 	} else {
 		fullStatement += fmt.Sprintf("30 day average price %.2f, shows stock trending *down*\n", medianPriceData)

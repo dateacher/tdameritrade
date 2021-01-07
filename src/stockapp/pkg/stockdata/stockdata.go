@@ -98,7 +98,6 @@ func GetMultipleStocks(tickers string, consumerKey string) ([]Stock, error) {
 	var parsed map[string]Stock
 	var newStock Stock
 
-	time.Sleep(1000 * time.Millisecond)
 	v := url.Values{}
 
 	v.Add("symbol", tickers)
@@ -111,13 +110,13 @@ func GetMultipleStocks(tickers string, consumerKey string) ([]Stock, error) {
 	//request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", configuration.TDKEY))
 
 	resp, err := client.Do(request)
-	fmt.Println(resp) //#Debugging print line
+	//fmt.Println(resp) //#Debugging print line
 
 	if err != nil {
 		return nil, err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body)) //Debugging print line
+	//fmt.Println(string(body)) //Debugging print line
 
 	if err != nil {
 		return nil, err
@@ -148,6 +147,7 @@ func GetMultipleStocks(tickers string, consumerKey string) ([]Stock, error) {
 
 //GetPriceHistory get past data
 func GetPriceHistory(symbl string, periodType string, period string, frequencyType string, frequency string, consumerKey string) ([]float32, error) {
+	time.Sleep(500 * time.Millisecond)
 	var candles Candles
 	var numbers []float32
 	resp, err := http.Get(fmt.Sprintf("https://api.tdameritrade.com/v1/marketdata/%s/pricehistory?apikey=%s&periodType=%s&period=%s&frequencyType=%s&frequency=%s", symbl, consumerKey, periodType, period, frequencyType, frequency))
@@ -197,17 +197,13 @@ func makeStockStructFromMap(symbl string, dataMap map[string]Stock) Stock {
 }
 
 //ChunkStockSymbls Breaks up symbols so that you are not calling more then x(chunksize) at a time
-func ChunkStockSymbls(symbls []string, chunkSize int) [][]string {
+func ChunkStockSymbls(symbols []string, chunkSize int) [][]string {
 	var chunk [][]string
-
-	for i := 0; i < len(symbls)-1; i++ {
-		if chunkSize+i < len(symbls) {
-			chunk = append(chunk, symbls[i:i+chunkSize-1])
-			i += chunkSize
-		} else {
-			chunk = append(chunk, symbls[i:])
-		}
+	numChunks := len(symbols) / chunkSize
+	for i := 0; i < numChunks; i++ {
+		chunk = append(chunk, symbols[i*chunkSize:(i+1)*chunkSize-1])
 	}
+	chunk = append(chunk, symbols[numChunks*chunkSize:])
 	return chunk
 }
 

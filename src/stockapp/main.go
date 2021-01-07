@@ -59,17 +59,12 @@ func main() {
 			fmt.Println(err)
 		}
 		if len(stocks) > 1 {
-			if len(stocks) > 500 {
-				//Error when running
-				/* &{406  406 HTTP/1.1 1 1 map[Access-Control-Allow-Headers:[origin, x-requested-with, accept, authorization, content-type] Access-Control-Allow-Methods:[GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH] Access-Control-Allow-Origin:[] Access-Control-Max-Age:[3628800] Cache-Control:[no-cache,no-store,must-revalidate] Connection:[keep-alive] Content-Security-Policy:[frame-ancestors 'self'] Content-Type:[application/json;charset=UTF-8] Date:[Wed, 06 Jan 2021 02:17:17 GMT] Strict-Transport-Security:[max-age=31536000; includeSubDomains max-age=31536000] Vary:[Accept-Encoding] X-Content-Type-Options:[nosniff] X-Frame-Options:[SAMEORIGIN] X-Xss-Protection:[1; mode=block]] 0xc000462060 -1 [chunked] false true map[] 0xc0000d0100 0xc0003f0000}
-				{"error":"Symbol size is over the limit"}
-				json: cannot unmarshal string into Go value of type stockdata.Stock */
-
-				/* "error":"Individual App's transactions per seconds restriction reached. Please contact us with further questions"*/
-
+			//Run multi stock gathering if you would like multiple
+			if len(stocks) > 10 {
+				//Set chunk size to 500
 				chunkStocks = stockdata.ChunkStockSymbls(stocks, 500)
-				for _, item := range chunkStocks {
-					fmt.Println(len(chunkStocks))
+				for i, item := range chunkStocks {
+					fmt.Printf("Chunk %d out of %d\n", i+1, len(chunkStocks))
 					stockList, err = stockdata.GetMultipleStocks(stockdata.MakeTickersToString(item), keyfile.ConsumerKey)
 					if err != nil {
 						fmt.Println(err)
@@ -80,7 +75,7 @@ func main() {
 							fmt.Printf("Please see the following error: %s\n", err)
 							return
 						} else {
-							fmt.Println(trendingMedian)
+							fmt.Printf("%s:\nMark price: %.2f\n%s\n", item2.Symbol, item2.Mark, trendingMedian)
 						}
 						multiStockList = append(multiStockList, item2)
 					}
@@ -96,7 +91,7 @@ func main() {
 						fmt.Printf("Please see the following error: %s\n", err)
 						return
 					} else {
-						fmt.Println(trendingMedian)
+						fmt.Printf("%s:\nMark price: %.2f\n%s\n", item2.Symbol, item2.Mark, trendingMedian)
 					}
 					multiStockList = append(multiStockList, item2)
 				}
