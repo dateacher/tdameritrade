@@ -201,7 +201,7 @@ func ChunkStockSymbls(symbols []string, chunkSize int) [][]string {
 	var chunk [][]string
 	numChunks := len(symbols) / chunkSize
 	for i := 0; i < numChunks; i++ {
-		chunk = append(chunk, symbols[i*chunkSize:(i+1)*chunkSize-1])
+		chunk = append(chunk, symbols[i*chunkSize:(i+1)*chunkSize])
 	}
 	chunk = append(chunk, symbols[numChunks*chunkSize:])
 	return chunk
