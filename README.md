@@ -79,6 +79,7 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
         $ go run .\main.go -stock ge
         $ go run .\main.go -stock tsla
         $ go run .\main.go -sector toptickers
+        $ go run .\main.go -sector all
     Response
 
 
