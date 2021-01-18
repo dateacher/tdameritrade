@@ -94,9 +94,8 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
 
 # Authenticated Account Configuration
 ## Step 1 - Obtain Account Number
-    Account number can be found at in TD AMERITRADE website under `Client Service` > `My Profile` > `Personal Information` > `Account number` - Show
-
-    In thinkorswim desktop software, account number should show in window bar `Account:XXXXXXXX123TDA`, You want just the numbers before TDA.
+Account number can be found at in TD AMERITRADE website under `Client Service` > `My Profile` > `Personal Information` > `Account number` - Show
+In thinkorswim desktop software, account number should show in window bar `Account:XXXXXXXX123TDA`, You want just the numbers before TDA.
 ## Step 2 - Creating Authentication string
 This authentication will allow the ability for you to get non delayed quote data, the ability to create watchlists within your account and the ability to configure automatic trading.
 
