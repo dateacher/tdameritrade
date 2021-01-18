@@ -1,6 +1,8 @@
 package errorhandlers
 
-import "strings"
+import (
+	"strings"
+)
 
 func ConfirmBody(inputText string) string {
 	if strings.Contains(inputText, "\"error\":\"Invalid ApiKey\"") {

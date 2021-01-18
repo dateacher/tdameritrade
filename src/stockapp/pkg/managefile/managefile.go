@@ -25,10 +25,19 @@ func writeDataToText(data string) error {
 func GetSectorData(sector string) ([]string, error) {
 	var sectorFileLocation string
 	switch sector {
-
 	//only one case statement here but you could have many case statements and many txt files to gather an unlimited number of stock sectors and symbols.
 	case "toptickers":
 		sectorFileLocation = "pkg/sectors/toptickers.txt"
+	case "construction":
+		sectorFileLocation = "pkg/sectors/construction.txt"
+	case "consumer":
+		sectorFileLocation = "pkg/sectors/consumer.txt"
+	case "finance":
+		sectorFileLocation = "pkg/sectors/finance.txt"
+	case "medical":
+		sectorFileLocation = "pkg/sectors/medical.txt"
+	case "oilsenergy":
+		sectorFileLocation = "pkg/sectors/oilsenergy.txt"
 	case "all":
 		sectorFileLocation = "pkg/sectors/all.txt"
 	}
