@@ -1,4 +1,4 @@
-[Video Setup Part 1](https://www.youtube.com/watch?v=bb2kAlzkt20) | [Video watchlist add Part 2](https://youtu.be/sqwO9HTQmQ0) | [TD Ameritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
+[Video Setup (Part 1)](https://www.youtube.com/watch?v=bb2kAlzkt20) | [Video Authentication (Part 2)](https://youtu.be/sqwO9HTQmQ0) | [TD Ameritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
 
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
