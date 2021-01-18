@@ -1,4 +1,6 @@
-[Video Setup (Part 1)](https://www.youtube.com/watch?v=bb2kAlzkt20) | [Video Authentication (Part 2)](https://youtu.be/sqwO9HTQmQ0) | [TD Ameritrade Getting Strated](https://developer.tdameritrade.com/content/getting-started)
+[Video Setup (Part 1)](https://www.youtube.com/watch?v=bb2kAlzkt20) | [Video Authentication (Part 2)](https://youtu.be/sqwO9HTQmQ0)
+
+[TD Ameritrade Getting Started](https://developer.tdameritrade.com/content/getting-started)
 
 # Setup Development Environment
 Download and install your development environment of choice. I used visual studio code, however, a simple text editor is all that is needed as we are working with GO and it is simple.
@@ -49,7 +51,7 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
 
          https://api.tdameritrade.com/v1/marketdata/GE/quotes?apikey=<CONSUMER_KEY>
 
-* If you recieved `Stock Data` proceed, however if you received an `Error` check your key/ stock symbol and don't proceed until you recieve `Stock Data`.
+* If you received `Stock Data` proceed, however if you received an `Error` check your key/ stock symbol and don't proceed until you receive `Stock Data`.
 
     Stock Data:
 
@@ -98,17 +100,17 @@ Use the 'Consumer Key' on a random stock via the web UI to confirm the app has b
 ## Step 2 - Creating Authentication string
 This authentication will allow the ability for you to get non delayed quote data, the ability to create watchlists within your account and the ability to configure automatic trading.
 
-Authenitcation guide: https://developer.tdameritrade.com/content/authentication-faq
+Authentication guide: https://developer.tdameritrade.com/content/authentication-faq
 
 Quick rundown if Part 1 was followed and you are using localhost as the endpoint.
 * Obtain `Auth Code`
 
     *  Generate Auth URL following the example https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost&client_id=*\<Replace with Consumer Key>*%40AMER.OAUTHAP 
-        * Important Note - Consumer key menetioned above is the consumer key of the app you created in part 1. Replace all of `<Replace with Consumer Key>` including `<>` with your key (example `AUGFNDO124`). Then executed the command.
+        * Important Note - Consumer key mentioned above is the consumer key of the app you created in part 1. Replace all `<Replace with Consumer Key>` including `<>` with your key (example `AUGFNDO124`). Then executed the command.
 
     * Login to `TD Ameritrade Secure Log-in` using the account you would like to manage via the API.
         * As you may have noticed, creating the `App` via the TD Ameritrade Development site used a different set of credentials. These 2 users are independent of one another. You create an app to use the API, you create this `Auth Code` and Tokens to make changes within your TD Ameritrade account directly.
-    * Once logged in, select `Allow`, since we used local host we should get a page that looks like an offline, or error page. This is expected. You want to copy the URL because this is were the `code` variable is returned. We specifacly need the information after `code=` from the URL, however copy the full path for review to ensure you get the full `code` variable data.
+    * Once logged in, select `Allow`, since we used localhost, we should get a page that looks like an offline, or error page. This is expected. You want to copy the URL because this is where the `code` variable is returned. We specifically need the information after `code=` from the URL, however, copy the full path for review to ensure you get the full `code` variable data.
     * The returned `code` variable is URL encoded, we need to decode it first, then we can use the information in the following command to generate the necessary authentication token. This process is needed for your initially authentication and then every 90 days, this is necessary to link your Developer application with your TD Ameritrade account.
         * I used https://www.urldecoder.org/ decode option for decoding my `code` variable
 
@@ -124,12 +126,12 @@ Quick rundown if Part 1 was followed and you are using localhost as the endpoint
 
     Click `Send`
 
-    * The resonse should be `HTTP/1.1 200 OK`. We now need to copy both the access_token and refresh_token. The current access_token will be good for the next 30 mins, however we need the refresh_token to get a new token whenever needed (ie. every 30 mins).
+    * The response should be `HTTP/1.1 200 OK`. We now need to copy both the access_token and refresh_token. The current access_token will be good for the next 30 mins, however we need the refresh_token to get a new token whenever needed (ie. every 30 mins).
 
 * Add the `refresh_token` to the variable TDREFRESH and the `access_token` to the variable TDKEY, unless you made a new keyfile, both variables can be found in `../keyfile/keyfile.go` in the repository.
 
 ## Step 4 - Execute program to create watchlist
-As seen in part 2 of the youtube configuration guide, this simple example will identify the median for a given sector, create an array of the first 10 stock symbols and then creating a watchlist using the first symbol while appending the remaining 9 symbols to the watchlist. Once this watchlist is created you can find the watchlist in your TD Ameritrade accounts thinkorswim personal watchlist locations.
+As seen in part 2 of the YouTube configuration guide, this simple example will identify the median for a given sector, create an array of the first 10 stock symbols and then creating a watchlist using the first symbol while appending the remaining 9 symbols to the watchlist. Once this watchlist is created you can find the watchlist in your TD Ameritrade accounts thinkorswim personal watchlist locations.
 * Example command:
     ```
     $ go run .\main.go -sector oilsenergy -setwatchlist
